@@ -17,26 +17,23 @@ const imgLightbox = document.querySelector('.lightbox__image')
 
 
 //добавление картинок в разметку
-function imgAdd(arr) {
-    for (let obj of arr) {
-        let objGallery = obj;
-        const link = document.createElement('a')
-        const list = document.createElement('li')
-        const img = document.createElement('img')
-        list.append(link)
-        link.append(img)
-        list.classList.add('gallery__item')
-        link.classList.add('gallery__link')
-        img.classList.add('gallery__image')
-        link.setAttribute('href', objGallery['original'])
-        img.setAttribute('src', objGallery['preview'])
-        img.setAttribute('data-source', objGallery['original'])
-        img.setAttribute('alt', objGallery['description'])
-        galleryJs.insertAdjacentHTML('afterbegin', `${list.outerHTML}`)
-    }
-    return galleryJs
+function addMarkup(original, preview, description) {
+    const link = document.createElement('a')
+    const list = document.createElement('li')
+    const img = document.createElement('img')
+    list.append(link)
+    link.append(img)
+    list.classList.add('gallery__item')
+    link.classList.add('gallery__link')
+    img.classList.add('gallery__image')
+    link.setAttribute('href', original)
+    img.setAttribute('src', preview)
+    img.setAttribute('data-source', original)
+    img.setAttribute('alt', description)
+    return list.outerHTML
 }
-imgAdd(gallery);
+
+galleryJs.insertAdjacentHTML('afterbegin', `${gallery.reduce((acc,el)=>addMarkup(el.original,el.preview,el.description)+acc,'')})`)
 
 
 //модальное окно
